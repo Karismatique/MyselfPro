@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import Link from "next/link";
+import CreateInvoiceForm from "./create-invoice-form";
 
 // Fonction d'extraction des métriques avec résilience
 async function getMetrics(userId: string) {
@@ -143,66 +144,74 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Section des factures récentes */}
-      <div className="p-6 bg-zinc-950/20 border border-zinc-800 rounded-xl">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-bold text-white">Factures récentes</h3>
-          <Link
-            href="/dashboard/factures"
-            className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
-          >
-            Voir toutes les factures →
-          </Link>
+      {/* Grid Layout pour Factures Récentes et Formulaire CRM */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* Colonne Factures Récentes (2/3 sur grand écran) */}
+        <div className="lg:col-span-2 p-6 bg-zinc-950/20 border border-zinc-800 rounded-xl">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-bold text-white">Factures récentes</h3>
+            <Link
+              href="/dashboard/factures"
+              className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+            >
+              Voir toutes les factures →
+            </Link>
+          </div>
+
+          {latestFactures.length === 0 ? (
+            <div className="text-center py-8 text-zinc-500">
+              Aucune facture enregistrée pour le moment.
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-zinc-800 text-zinc-400 text-xs font-semibold uppercase">
+                    <th className="py-3 px-4">Numéro</th>
+                    <th className="py-3 px-4">Client</th>
+                    <th className="py-3 px-4">Date</th>
+                    <th className="py-3 px-4">Montant</th>
+                    <th className="py-3 px-4 text-right">Statut</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-800 text-sm">
+                  {latestFactures.map((facture) => (
+                    <tr key={facture.id} className="hover:bg-zinc-800/10 transition-colors">
+                      <td className="py-4 px-4 font-mono font-medium text-indigo-400">{facture.number}</td>
+                      <td className="py-4 px-4 text-white font-medium">{facture.client.name}</td>
+                      <td className="py-4 px-4 text-zinc-400">
+                        {new Date(facture.date).toLocaleDateString("fr-FR")}
+                      </td>
+                      <td className="py-4 px-4 text-white font-semibold">
+                        {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(
+                          facture.amount
+                        )}
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <span
+                          className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                            facture.status === "PAYE"
+                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                              : facture.status === "ENVOYE"
+                              ? "bg-sky-500/10 text-sky-400 border border-sky-500/20"
+                              : "bg-zinc-500/10 text-zinc-400 border border-zinc-500/20"
+                          }`}
+                        >
+                          {facture.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
-        {latestFactures.length === 0 ? (
-          <div className="text-center py-8 text-zinc-500">
-            Aucune facture enregistrée pour le moment.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-zinc-800 text-zinc-400 text-xs font-semibold uppercase">
-                  <th className="py-3 px-4">Numéro</th>
-                  <th className="py-3 px-4">Client</th>
-                  <th className="py-3 px-4">Date</th>
-                  <th className="py-3 px-4">Montant</th>
-                  <th className="py-3 px-4 text-right">Statut</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-800 text-sm">
-                {latestFactures.map((facture) => (
-                  <tr key={facture.id} className="hover:bg-zinc-800/10 transition-colors">
-                    <td className="py-4 px-4 font-mono font-medium text-indigo-400">{facture.number}</td>
-                    <td className="py-4 px-4 text-white font-medium">{facture.client.name}</td>
-                    <td className="py-4 px-4 text-zinc-400">
-                      {new Date(facture.date).toLocaleDateString("fr-FR")}
-                    </td>
-                    <td className="py-4 px-4 text-white font-semibold">
-                      {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(
-                        facture.amount
-                      )}
-                    </td>
-                    <td className="py-4 px-4 text-right">
-                      <span
-                        className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                          facture.status === "PAYE"
-                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                            : facture.status === "ENVOYE"
-                            ? "bg-sky-500/10 text-sky-400 border border-sky-500/20"
-                            : "bg-zinc-500/10 text-zinc-400 border border-zinc-500/20"
-                        }`}
-                      >
-                        {facture.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        {/* Colonne Formulaire de Création (1/3 sur grand écran) */}
+        <div>
+          <CreateInvoiceForm />
+        </div>
       </div>
     </div>
   );
