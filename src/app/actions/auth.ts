@@ -40,7 +40,7 @@ export async function loginWithGithub() {
 
 export async function logout() {
   try {
-    await signOut({ redirectTo: "/login" });
+    await signOut({ redirectTo: "/" });
   } catch (error) {
     throw error;
   }

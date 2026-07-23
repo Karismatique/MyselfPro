@@ -7,12 +7,12 @@ export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(loginWithCredentials, null);
 
   return (
-    <div className="w-full max-w-md p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg shadow-2xl">
+    <div className="w-full max-w-md p-8 rounded-2xl border border-slate-700/60 bg-slate-900/80 shadow-2xl">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-extrabold tracking-tight text-white">
-          MySelf<span className="text-indigo-400">Pro</span>
+          MySelf<span className="text-teal-400">Pro</span>
         </h1>
-        <p className="mt-2 text-sm text-zinc-400">
+        <p className="mt-2 text-sm text-slate-400">
           La plateforme de facturation dédiée aux freelances de MesIndep
         </p>
       </div>
@@ -21,7 +21,7 @@ export default function LoginForm() {
       <form action={loginWithGithub} className="mb-6">
         <button
           type="submit"
-          className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-zinc-700 bg-zinc-900 text-white font-medium hover:bg-zinc-800 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-zinc-950 cursor-pointer"
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-slate-600 bg-slate-800 text-white font-medium hover:bg-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-950 cursor-pointer"
         >
           <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
             <path
@@ -35,15 +35,15 @@ export default function LoginForm() {
       </form>
 
       <div className="relative flex py-2 items-center mb-6">
-        <div className="flex-grow border-t border-zinc-800"></div>
-        <span className="flex-shrink mx-4 text-zinc-500 text-xs uppercase tracking-wider">ou</span>
-        <div className="flex-grow border-t border-zinc-800"></div>
+        <div className="flex-grow border-t border-slate-700"></div>
+        <span className="flex-shrink mx-4 text-slate-500 text-xs uppercase tracking-wider">ou</span>
+        <div className="flex-grow border-t border-slate-700"></div>
       </div>
 
       {/* Formulaire classique */}
       <form action={formAction} className="space-y-5">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-zinc-300 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
             Adresse email
           </label>
           <input
@@ -52,12 +52,12 @@ export default function LoginForm() {
             type="email"
             required
             placeholder="Ex: freelance@mesindep.fr"
-            className="w-full px-4 py-3 rounded-lg border border-zinc-800 bg-zinc-900/50 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-slate-700 bg-slate-800/60 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-zinc-300 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
             Mot de passe
           </label>
           <input
@@ -66,7 +66,7 @@ export default function LoginForm() {
             type="password"
             required
             placeholder="••••••••"
-            className="w-full px-4 py-3 rounded-lg border border-zinc-800 bg-zinc-900/50 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-slate-700 bg-slate-800/60 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
           />
         </div>
 
@@ -79,7 +79,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold transition-all shadow-lg shadow-indigo-600/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-zinc-950 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="w-full py-3 rounded-lg bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white font-semibold transition-all shadow-lg shadow-teal-600/20 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           {isPending ? "Connexion en cours..." : "Se connecter"}
         </button>

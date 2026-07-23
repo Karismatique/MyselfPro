@@ -100,6 +100,9 @@ export const metadata = {
   title: "Dashboard - MySelfPro",
 };
 
+const euro = (n: number) =>
+  new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(n);
+
 export default async function DashboardPage() {
   const session = await auth();
   const user = session?.user;
@@ -122,159 +125,137 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Message de bienvenue */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      {/* En-tête de bienvenue */}
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">
-            Ravi de vous revoir, {user?.name || "Freelance"} 👋
-          </h1>
-          <p className="text-zinc-300 mt-1">
-            Voici l'aperçu de votre activité avec MySelfPro pour ce mois-ci.
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 tracking-wide uppercase">
+            Tableau de bord
           </p>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mt-1">
+            Bonjour, {user?.name || "Freelance"}
+          </h1>
         </div>
 
         {dbStatus === "mocked" && (
           <div 
             role="status" 
-            className="px-4 py-2 bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs rounded-lg flex items-center gap-2 self-start md:self-auto"
+            className="px-3 py-1.5 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/40 text-amber-700 dark:text-amber-300 text-xs rounded-md flex items-center gap-2 self-start md:self-auto"
           >
-            <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" aria-hidden="true"></span>
-            Mode démo (PostgreSQL non connecté dans .env)
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse" aria-hidden="true"></span>
+            Mode démo
           </div>
         )}
       </div>
 
-      {/* 1. CARTES PRINCIPALES : Aperçu Financier (RGAA sémantique et contrastes élevés) */}
-      <section aria-label="Aperçu financier principal" className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Chiffre d'Affaires & Reste à vivre */}
-        <div className="p-6 bg-zinc-950/40 border border-zinc-800 rounded-xl flex flex-col justify-between">
-          <div>
-            <div className="flex justify-between items-center text-zinc-300 text-sm font-semibold">
-              <h2>Chiffre d'Affaires Cumulé (H.T.)</h2>
-              <svg className="h-5 w-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div className="mt-4">
-              <span className="text-3xl font-bold text-white">
-                {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(totalAmount)}
-              </span>
-            </div>
-          </div>
-          <div className="mt-4 pt-3 border-t border-zinc-800/60">
-            <p className="text-xs text-zinc-300 font-medium">
-              Reste à vivre estimé : <strong className="text-indigo-300 font-semibold">{new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(resteAVivre)}</strong>
+      {/* KPI principaux */}
+      <section aria-label="Aperçu financier principal" className="grid grid-cols-1 md:grid-cols-5 gap-5">
+        {/* CA Cumulé */}
+        <div className="md:col-span-2 p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg shadow-sm">
+          <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+            Chiffre d'Affaires Cumulé
+          </h2>
+          <p className="text-3xl font-bold text-slate-900 dark:text-slate-50 mt-3 font-mono">
+            {euro(totalAmount)}
+          </p>
+          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/40">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Reste à vivre : <span className="text-teal-600 dark:text-teal-400 font-semibold">{euro(resteAVivre)}</span>
             </p>
           </div>
         </div>
 
-        {/* Cotisations URSSAF Estimées */}
-        <div className="p-6 bg-zinc-950/40 border border-zinc-800 rounded-xl flex flex-col justify-between">
-          <div>
-            <div className="flex justify-between items-center text-zinc-300 text-sm font-semibold">
-              <h2>Cotisations URSSAF Estimées</h2>
-              <svg className="h-5 w-5 text-fuchsia-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div className="mt-4">
-              <span className="text-3xl font-bold text-white">
-                {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(cotisationsURSSAF)}
-              </span>
-            </div>
-          </div>
-          <div className="mt-4 pt-3 border-t border-zinc-800/60">
-            <p className="text-xs text-zinc-300 font-medium">
-              Taux appliqué : <strong className="text-zinc-200">21,1%</strong> (Services B2B)
+        {/* URSSAF */}
+        <div className="md:col-span-2 p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg shadow-sm">
+          <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+            Cotisations URSSAF
+          </h2>
+          <p className="text-3xl font-bold text-slate-900 dark:text-slate-50 mt-3 font-mono">
+            {euro(cotisationsURSSAF)}
+          </p>
+          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/40">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Taux : <span className="text-slate-700 dark:text-slate-200 font-semibold">21,1 %</span> (Services B2B)
             </p>
           </div>
         </div>
 
-        {/* Clients Actifs */}
-        <div className="p-6 bg-zinc-950/40 border border-zinc-800 rounded-xl flex flex-col justify-between">
-          <div>
-            <div className="flex justify-between items-center text-zinc-300 text-sm font-semibold">
-              <h2>Nombre de Clients</h2>
-              <svg className="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <div className="mt-4">
-              <span className="text-3xl font-bold text-white">{clientCount}</span>
-            </div>
-          </div>
-          <div className="mt-4 pt-3 border-t border-zinc-800/60">
-            <p className="text-xs text-zinc-300 font-medium">
-              Clients enregistrés uniques
-            </p>
-          </div>
+        {/* Clients */}
+        <div className="md:col-span-1 p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg shadow-sm flex flex-col justify-between">
+          <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+            Clients
+          </h2>
+          <p className="text-4xl font-bold text-slate-900 dark:text-slate-50 mt-3 font-mono">
+            {clientCount}
+          </p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-auto pt-3">
+            enregistrés
+          </p>
         </div>
       </section>
 
-      {/* 2. CARTES SECONDAIRES (Nouveaux KPIs demandés : CA Mois, TVA, En Attente) */}
-      <section aria-label="Indicateurs financiers secondaires" className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {/* CA Mois en Cours */}
-        <div className="p-4 bg-zinc-900 border border-zinc-800/60 rounded-xl flex items-center justify-between">
+      {/* KPIs secondaires */}
+      <section aria-label="Indicateurs financiers secondaires" className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="px-4 py-3 bg-white dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/40 rounded-lg shadow-sm flex items-center justify-between">
           <div>
-            <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">CA du mois</h3>
-            <p className="text-xl font-bold text-white mt-1">
-              {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(currentMonthCA)}
+            <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400">CA du mois</h3>
+            <p className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-0.5 font-mono">
+              {euro(currentMonthCA)}
             </p>
           </div>
-          <div className="h-9 w-9 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg flex items-center justify-center">
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <div className="h-8 w-8 bg-teal-50 dark:bg-teal-600/15 text-teal-600 dark:text-teal-400 rounded flex items-center justify-center">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
         </div>
 
-        {/* TVA Collectée */}
-        <div className="p-4 bg-zinc-900 border border-zinc-800/60 rounded-xl flex items-center justify-between">
+        <div className="px-4 py-3 bg-white dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/40 rounded-lg shadow-sm flex items-center justify-between">
           <div>
-            <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">TVA collectée (20%)</h3>
-            <p className="text-xl font-bold text-white mt-1">
-              {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(tvaCollectee)}
+            <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400">TVA collectée (20 %)</h3>
+            <p className="text-lg font-bold text-slate-900 dark:text-slate-100 mt-0.5 font-mono">
+              {euro(tvaCollectee)}
             </p>
           </div>
-          <div className="h-9 w-9 bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 rounded-lg flex items-center justify-center">
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <div className="h-8 w-8 bg-violet-50 dark:bg-violet-600/15 text-violet-600 dark:text-violet-400 rounded flex items-center justify-center">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
             </svg>
           </div>
         </div>
 
-        {/* En attente d'encaissement */}
-        <div className="p-4 bg-zinc-900 border border-zinc-800/60 rounded-xl flex items-center justify-between">
+        <div className="px-4 py-3 bg-white dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/40 rounded-lg shadow-sm flex items-center justify-between">
           <div>
-            <h3 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider">En attente d'encaissement</h3>
-            <p className="text-xl font-bold text-amber-400 mt-1">
-              {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(pendingAmount)}
+            <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400">En attente</h3>
+            <p className="text-lg font-bold text-amber-600 dark:text-amber-400 mt-0.5 font-mono">
+              {euro(pendingAmount)}
             </p>
           </div>
-          <div className="h-9 w-9 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-lg flex items-center justify-center">
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <div className="h-8 w-8 bg-amber-50 dark:bg-amber-600/15 text-amber-600 dark:text-amber-400 rounded flex items-center justify-center">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
         </div>
       </section>
 
-      {/* Grid Layout pour Activité Récente (Tableau) et Formulaire CRM */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        {/* Colonne Factures Récentes (2/3 sur grand écran) */}
-        <section aria-labelledby="section-recent-invoices" className="lg:col-span-2 p-6 bg-zinc-950/20 border border-zinc-800 rounded-xl">
-          <div className="flex items-center justify-between mb-6">
-            <h3 id="section-recent-invoices" className="text-lg font-bold text-white">Activité Récente</h3>
+      {/* Activité récente + Formulaire */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        {/* Tableau des factures récentes */}
+        <section aria-labelledby="section-recent-invoices" className="lg:col-span-2 p-5 bg-white dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/40 rounded-lg shadow-sm">
+          <div className="flex items-center justify-between mb-5">
+            <h3 id="section-recent-invoices" className="text-base font-semibold text-slate-900 dark:text-slate-100">
+              Activité récente
+            </h3>
             <Link
               href="/dashboard/factures"
-              className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded"
+              className="text-xs font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded"
             >
-              Voir toutes les factures <span className="sr-only">émises</span> →
+              Tout voir <span className="sr-only">les factures émises</span>→
             </Link>
           </div>
 
           {latestFactures.length === 0 ? (
-            <div className="text-center py-8 text-zinc-400">
+            <div className="text-center py-8 text-slate-400 dark:text-slate-500">
               Aucune facture enregistrée pour le moment.
             </div>
           ) : (
@@ -284,48 +265,46 @@ export default async function DashboardPage() {
                   Liste des 5 dernières factures créées et leur statut de paiement.
                 </caption>
                 <thead>
-                  <tr className="border-b border-zinc-800 text-zinc-300 text-xs font-bold uppercase">
-                    <th scope="col" className="py-3 px-4">Numéro</th>
-                    <th scope="col" className="py-3 px-4">Client</th>
-                    <th scope="col" className="py-3 px-4">Date</th>
-                    <th scope="col" className="py-3 px-4">Montant</th>
-                    <th scope="col" className="py-3 px-4">Statut</th>
-                    <th scope="col" className="py-3 px-4 text-right">Action</th>
+                  <tr className="border-b border-slate-200 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 text-xs font-medium uppercase">
+                    <th scope="col" className="py-2.5 px-3">Numéro</th>
+                    <th scope="col" className="py-2.5 px-3">Client</th>
+                    <th scope="col" className="py-2.5 px-3">Date</th>
+                    <th scope="col" className="py-2.5 px-3">Montant</th>
+                    <th scope="col" className="py-2.5 px-3">Statut</th>
+                    <th scope="col" className="py-2.5 px-3 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-800 text-sm">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-700/40 text-sm">
                   {latestFactures.map((facture) => (
-                    <tr key={facture.id} className="hover:bg-zinc-800/10 transition-colors">
-                      <td className="py-4 px-4 font-mono font-semibold text-indigo-400">{facture.number}</td>
-                      <td className="py-4 px-4 text-white font-semibold">{facture.client.name}</td>
-                      <td className="py-4 px-4 text-zinc-300">
+                    <tr key={facture.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
+                      <td className="py-3 px-3 font-mono text-sm text-teal-600 dark:text-teal-400">{facture.number}</td>
+                      <td className="py-3 px-3 text-slate-800 dark:text-slate-200 font-medium">{facture.client.name}</td>
+                      <td className="py-3 px-3 text-slate-500 dark:text-slate-400">
                         {new Date(facture.date).toLocaleDateString("fr-FR")}
                       </td>
-                      <td className="py-4 px-4 text-white font-semibold">
-                        {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(
-                          facture.amount
-                        )}
+                      <td className="py-3 px-3 text-slate-900 dark:text-slate-100 font-mono font-medium">
+                        {euro(facture.amount)}
                       </td>
-                      <td className="py-4 px-4">
+                      <td className="py-3 px-3">
                         <span
-                          className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                          className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${
                             facture.status === "PAYE"
-                              ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/20"
+                              ? "bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700/40"
                               : facture.status === "ENVOYE"
-                              ? "bg-sky-500/10 text-sky-300 border border-sky-500/20"
-                              : "bg-zinc-800 text-zinc-200 border border-zinc-700"
+                              ? "bg-sky-50 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-700/40"
+                              : "bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600/40"
                           }`}
                         >
                           {facture.status}
                         </span>
                       </td>
-                      <td className="py-4 px-4 text-right">
+                      <td className="py-3 px-3 text-right">
                         <a
                           href={`/api/factures/${facture.id}/pdf`}
                           aria-label={`Télécharger le PDF pour la facture ${facture.number}`}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-zinc-800 border border-zinc-700 text-indigo-400 hover:bg-zinc-700 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium bg-slate-100 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600/40 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600/50 hover:text-slate-900 dark:hover:text-slate-100 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                         >
-                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                           </svg>
                           PDF
@@ -339,7 +318,7 @@ export default async function DashboardPage() {
           )}
         </section>
 
-        {/* Colonne Formulaire de Création (1/3 sur grand écran) */}
+        {/* Formulaire de création */}
         <div>
           <CreateInvoiceForm />
         </div>
