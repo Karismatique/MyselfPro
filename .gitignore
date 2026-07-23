@@ -44,3 +44,6 @@ next-env.d.ts
 
 # Cahier de recettes (Partie du rendu final, mais pas du code)
 cahier_de_recettes.md 
+
+# Dossier pour le rendu final
+/final_submission/   
