@@ -3,9 +3,20 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+// Schéma de validation strict avec Zod (Sécurisation Backend)
+const createInvoiceSchema = z.object({
+  name: z.string().trim().min(1, "Veuillez renseigner le nom du client."),
+  email: z.string().trim().email("Veuillez entrer une adresse email valide."),
+  address: z.string().trim().optional(),
+  amount: z.coerce
+    .number()
+    .gt(0, "Le montant de la facture doit être un nombre positif supérieur à zéro."),
+});
 
 export async function createClientAndInvoice(prevState: any, formData: FormData) {
-  // 1. Vérification de la session utilisateur
+  // 1. Vérification de la session utilisateur (protection de la route)
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -13,26 +24,24 @@ export async function createClientAndInvoice(prevState: any, formData: FormData)
     return { error: "Vous devez être connecté pour effectuer cette action." };
   }
 
-  // 2. Récupération et validation des données du formulaire
-  const name = formData.get("name")?.toString().trim();
-  const email = formData.get("email")?.toString().trim();
-  const address = formData.get("address")?.toString().trim();
-  const amountStr = formData.get("amount")?.toString();
+  // 2. Extraction et validation des données via le schéma Zod
+  const rawData = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    address: formData.get("address"),
+    amount: formData.get("amount"),
+  };
 
-  if (!name || !email || !amountStr) {
-    return { error: "Veuillez remplir tous les champs obligatoires (Nom, Email, Montant)." };
+  const validationResult = createInvoiceSchema.safeParse(rawData);
+
+  if (!validationResult.success) {
+    // Retourne le premier message d'erreur de schéma rencontré
+    return {
+      error: validationResult.error.issues[0].message,
+    };
   }
 
-  const amount = parseFloat(amountStr);
-  if (isNaN(amount) || amount <= 0) {
-    return { error: "Le montant de la facture doit être un nombre positif supérieur à zéro." };
-  }
-
-  // Validation simple du format de l'email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return { error: "Veuillez entrer une adresse email valide." };
-  }
+  const { name, email, address, amount } = validationResult.data;
 
   try {
     // 3. Exécution de la transaction Prisma pour créer le Client et sa Facture liée
@@ -45,7 +54,7 @@ export async function createClientAndInvoice(prevState: any, formData: FormData)
       data: {
         name,
         email,
-        address,
+        address: address || null,
         userId,
         factures: {
           create: {
@@ -58,7 +67,7 @@ export async function createClientAndInvoice(prevState: any, formData: FormData)
       },
     });
 
-    // 4. Revalidation de la page du tableau de bord pour rafraîchir les métriques et la liste
+    // 4. Revalidation de la page du tableau de bord pour rafraîchir les métriques
     revalidatePath("/dashboard");
 
     return { success: true, message: "Le client et la facture ont été créés avec succès !" };
