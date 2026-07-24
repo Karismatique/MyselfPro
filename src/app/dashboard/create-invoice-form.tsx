@@ -31,7 +31,7 @@ export default function CreateInvoiceForm() {
           Nouveau Client &amp; Facture
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-300 mt-1">
-          Créez un nouveau client et générez sa facture associée en une seule opération. Les champs marqués d'une astérisque (*) sont obligatoires.
+          Créez un nouveau client et générez sa facture associée en une seule opération. Les champs marqués d&apos;une astérisque (*) sont obligatoires.
         </p>
       </div>
 

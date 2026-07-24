@@ -15,7 +15,7 @@ const createInvoiceSchema = z.object({
     .gt(0, "Le montant de la facture doit être un nombre positif supérieur à zéro."),
 });
 
-export async function createClientAndInvoice(prevState: any, formData: FormData) {
+export async function createClientAndInvoice(prevState: unknown, formData: FormData) {
   // 1. Vérification de la session utilisateur (protection de la route)
   const session = await auth();
   const userId = session?.user?.id;

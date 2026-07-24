@@ -15,7 +15,7 @@ const registerSchema = z.object({
     .min(8, "Le mot de passe doit contenir au moins 8 caractères."),
 });
 
-export async function registerUser(prevState: any, formData: FormData) {
+export async function registerUser(prevState: unknown, formData: FormData) {
   const name = formData.get("name");
   const email = formData.get("email");
   const password = formData.get("password");
@@ -58,7 +58,7 @@ export async function registerUser(prevState: any, formData: FormData) {
   redirect("/login?registered=true");
 }
 
-export async function loginWithCredentials(prevState: any, formData: FormData) {
+export async function loginWithCredentials(prevState: unknown, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
 

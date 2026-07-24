@@ -20,7 +20,7 @@ export default function LoginPage() {
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          Retour à l'accueil
+          Retour à l&apos;accueil
         </Link>
         <ThemeToggle />
       </div>

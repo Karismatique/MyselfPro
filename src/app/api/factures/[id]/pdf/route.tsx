@@ -53,7 +53,7 @@ export async function GET(
     );
 
     // 4. Renvoi du flux PDF avec les bons headers pour le téléchargement
-    return new Response(pdfStream as any, {
+    return new Response(pdfStream as unknown as ReadableStream, {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="facture-${invoice.number}.pdf"`,

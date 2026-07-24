@@ -272,7 +272,7 @@ export function InvoicePDF({ invoice, client, user }: InvoicePDFProps) {
             Facture générée via le portail MySelfPro du collectif MesIndep.
           </Text>
           <Text style={[styles.footerText, { marginTop: 4, fontSize: 7, color: "#aaa" }]}>
-            TVA non applicable, art. 293 B du CGI - Pour toute question, veuillez contacter l'émetteur.
+            TVA non applicable, art. 293 B du CGI - Pour toute question, veuillez contacter l&apos;émetteur.
           </Text>
         </View>
       </Page>

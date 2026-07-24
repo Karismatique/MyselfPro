@@ -152,7 +152,7 @@ export default async function DashboardPage() {
         {/* CA Cumulé */}
         <div className="md:col-span-2 p-5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-lg shadow-sm">
           <h2 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-            Chiffre d'Affaires Cumulé
+            Chiffre d&apos;Affaires Cumulé
           </h2>
           <p className="text-3xl font-bold text-slate-900 dark:text-slate-50 mt-3 font-mono">
             {euro(totalAmount)}
@@ -262,7 +262,7 @@ export default async function DashboardPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <caption className="sr-only">
-                  Liste des 5 dernières factures créées et leur statut de paiement.
+                  Consultez l&apos;ensemble de vos factures et suivez leur statut de paiement.
                 </caption>
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 text-xs font-medium uppercase">

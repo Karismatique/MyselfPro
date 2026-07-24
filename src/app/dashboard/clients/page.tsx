@@ -1,5 +1,3 @@
-import { auth } from "@/auth";
-
 export const metadata = {
   title: "Clients - MySelfPro",
 };
