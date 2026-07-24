@@ -3,7 +3,9 @@ import GitHub from "next-auth/providers/github";
 
 export const authConfig = {
   providers: [
-    GitHub, // Utilise AUTH_GITHUB_ID et AUTH_GITHUB_SECRET automatiquement
+    GitHub({
+      allowDangerousEmailAccountLinking: true,
+    }),
   ],
   pages: {
     signIn: "/login",
