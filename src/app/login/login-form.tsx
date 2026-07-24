@@ -1,29 +1,42 @@
 "use client";
 
 import { useActionState } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { loginWithCredentials, loginWithGithub } from "../actions/auth";
 
 export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(loginWithCredentials, null);
+  const searchParams = useSearchParams();
+  const isRegistered = searchParams.get("registered") === "true";
 
   return (
-    <div className="w-full max-w-md p-8 rounded-2xl border border-slate-700/60 bg-slate-900/80 shadow-2xl">
+    <div className="w-full max-w-md p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 shadow-sm dark:shadow-2xl transition-colors duration-200">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-extrabold tracking-tight text-white">
-          MySelf<span className="text-teal-400">Pro</span>
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          MySelf<span className="text-teal-600 dark:text-teal-400">Pro</span>
         </h1>
-        <p className="mt-2 text-sm text-slate-400">
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
           La plateforme de facturation dédiée aux freelances de MesIndep
         </p>
       </div>
+
+      {isRegistered && (
+        <div 
+          role="status"
+          className="mb-6 p-3 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-xs text-emerald-700 dark:text-emerald-300 font-medium text-center"
+        >
+          Votre compte a été créé avec succès ! Vous pouvez maintenant vous connecter.
+        </div>
+      )}
 
       {/* Bouton de connexion GitHub */}
       <form action={loginWithGithub} className="mb-6">
         <button
           type="submit"
-          className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-slate-600 bg-slate-800 text-white font-medium hover:bg-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-950 cursor-pointer"
+          className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer text-sm"
         >
-          <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+          <svg className="h-5 w-5 fill-current text-slate-800 dark:text-white" viewBox="0 0 24 24" aria-hidden="true">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -35,15 +48,15 @@ export default function LoginForm() {
       </form>
 
       <div className="relative flex py-2 items-center mb-6">
-        <div className="flex-grow border-t border-slate-700"></div>
-        <span className="flex-shrink mx-4 text-slate-500 text-xs uppercase tracking-wider">ou</span>
-        <div className="flex-grow border-t border-slate-700"></div>
+        <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        <span className="flex-shrink mx-4 text-slate-400 dark:text-slate-500 text-xs uppercase tracking-wider">ou</span>
+        <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
       </div>
 
       {/* Formulaire classique */}
       <form action={formAction} className="space-y-5">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
             Adresse email
           </label>
           <input
@@ -52,12 +65,12 @@ export default function LoginForm() {
             type="email"
             required
             placeholder="Ex: freelance@mesindep.fr"
-            className="w-full px-4 py-3 rounded-lg border border-slate-700 bg-slate-800/60 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
+            className="w-full px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all text-sm"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
             Mot de passe
           </label>
           <input
@@ -66,12 +79,12 @@ export default function LoginForm() {
             type="password"
             required
             placeholder="••••••••"
-            className="w-full px-4 py-3 rounded-lg border border-slate-700 bg-slate-800/60 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
+            className="w-full px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all text-sm"
           />
         </div>
 
         {state?.error && (
-          <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-red-400 text-center">
+          <div className="p-3 rounded-lg bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-xs text-red-600 dark:text-red-400 text-center font-medium">
             {state.error}
           </div>
         )}
@@ -79,11 +92,21 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full py-3 rounded-lg bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white font-semibold transition-all shadow-lg shadow-teal-600/20 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="w-full py-3 rounded-lg bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white font-semibold transition-all shadow-md shadow-teal-600/20 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer"
         >
           {isPending ? "Connexion en cours..." : "Se connecter"}
         </button>
       </form>
+
+      <div className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
+        Pas encore de compte ?{" "}
+        <Link 
+          href="/register" 
+          className="font-semibold text-teal-600 dark:text-teal-400 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded"
+        >
+          Créer un compte
+        </Link>
+      </div>
     </div>
   );
 }

@@ -32,9 +32,9 @@ export default async function Home() {
           {isLoggedIn ? (
             <Link
               href="/dashboard"
-              className="px-4 py-2 text-sm font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+              className="px-4 py-2 text-sm font-semibold rounded-lg bg-teal-600 hover:bg-teal-700 text-white transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
             >
-              Tableau de bord
+              Mon Espace Freelance
             </Link>
           ) : (
             <>
@@ -45,10 +45,10 @@ export default async function Home() {
                 Connexion
               </Link>
               <Link
-                href="/login"
+                href="/register"
                 className="px-4 py-2 text-sm font-semibold rounded-lg bg-teal-600 hover:bg-teal-700 text-white transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
               >
-                Essai Gratuit
+                Inscription
               </Link>
             </>
           )}
@@ -73,7 +73,7 @@ export default async function Home() {
             et l&apos;estimation de vos cotisations URSSAF au même endroit.
           </p>
 
-          {/* CTA */}
+          {/* CTA principal */}
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             {isLoggedIn ? (
               <Link
@@ -85,16 +85,16 @@ export default async function Home() {
             ) : (
               <>
                 <Link
-                  href="/login"
+                  href="/register"
                   className="px-8 py-4 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-bold text-base transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                 >
-                  Démarrer maintenant
+                  Démarrer maintenant (Créer un compte)
                 </Link>
                 <Link
                   href="/login"
                   className="px-8 py-4 rounded-lg bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-base border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                 >
-                  Se connecter avec GitHub
+                  Déjà inscrit ? Connexion
                 </Link>
               </>
             )}

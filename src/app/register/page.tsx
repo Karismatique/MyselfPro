@@ -1,14 +1,13 @@
 import Link from "next/link";
-import LoginForm from "./login-form";
+import RegisterForm from "./register-form";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Suspense } from "react";
 
 export const metadata = {
-  title: "Connexion - MySelfPro",
-  description: "Accédez à votre tableau de bord MySelfPro pour gérer vos factures.",
+  title: "Inscription - MySelfPro",
+  description: "Créez votre compte freelance MySelfPro pour gérer vos factures et vos clients.",
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="relative min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 transition-colors duration-200">
       {/* Barre supérieure d'actions (Retour & Thème) */}
@@ -25,9 +24,7 @@ export default function LoginPage() {
         <ThemeToggle />
       </div>
 
-      <Suspense fallback={<div className="text-sm text-slate-500">Chargement...</div>}>
-        <LoginForm />
-      </Suspense>
+      <RegisterForm />
     </div>
   );
 }
