@@ -1,0 +1,44 @@
+name: Integration Continue (CI) - MySelfPro
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality-and-build:
+    name: Verification Qualite, Tests & Compilation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code source
+        uses: actions/checkout@v4
+
+      - name: Configuration de l'environnement Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Installation stricte des dependances
+        run: npm ci
+
+      - name: Generation du client Prisma ORM
+        run: npx prisma generate
+
+      - name: Verification du style et de la qualite de code (ESLint)
+        run: npm run lint
+
+      - name: Controle du typage strict TypeScript
+        run: npx tsc --noEmit
+
+      - name: Execution de la suite de tests unitaires et metier (Vitest)
+        run: npm run test
+
+      - name: Verification du build de production (Next.js Turbopack)
+        run: npm run build
+        env:
+          # Injection securisee via les GitHub Secrets du depot
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
