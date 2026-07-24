@@ -11,6 +11,11 @@ jobs:
     name: Verification Qualite, Tests & Compilation
     runs-on: ubuntu-latest
 
+    # Definition globale des variables d'environnement pour tous les steps du job
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+
     steps:
       - name: Checkout du code source
         uses: actions/checkout@v4
@@ -38,7 +43,3 @@ jobs:
 
       - name: Verification du build de production (Next.js Turbopack)
         run: npm run build
-        env:
-          # Injection securisee via les GitHub Secrets du depot
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
