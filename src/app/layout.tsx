@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -40,6 +42,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

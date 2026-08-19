@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import * as Sentry from "@sentry/nextjs";
 
 // Schéma de validation strict avec Zod (Sécurisation Backend)
 const createInvoiceSchema = z.object({
@@ -16,6 +17,7 @@ const createInvoiceSchema = z.object({
 });
 
 export async function createClientAndInvoice(prevState: unknown, formData: FormData) {
+
   // 1. Vérification de la session utilisateur (protection de la route)
   const session = await auth();
   const userId = session?.user?.id;
@@ -72,7 +74,9 @@ export async function createClientAndInvoice(prevState: unknown, formData: FormD
 
     return { success: true, message: "Le client et la facture ont été créés avec succès !" };
   } catch (error) {
-    console.error("Erreur lors de la création du client/facture:", error);
-    return { error: "Une erreur interne est survenue lors de la création. Veuillez réessayer." };
+    Sentry.captureException(error, {
+      tags: { feature: "invoice-creation" },
+    });
+    return { success: false, error: "Une erreur technique est survenue. L'équipe a été notifiée." };
   }
 }
