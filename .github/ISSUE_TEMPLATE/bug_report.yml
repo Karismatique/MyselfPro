@@ -1,0 +1,83 @@
+name: 🐛 Signalement d'anomalie
+description: Consigner un bogue ou un comportement inattendu détecté sur MySelfPro
+title: "[BUG] "
+labels: ["bug", "status:triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de renseigner ce formulaire avec un maximum de précision.
+        Ces informations constituent la **fiche de consignation** utilisée pour
+        qualifier, prioriser et corriger l'anomalie.
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Gravité
+      description: Impact de l'anomalie sur le service
+      options:
+        - Critique (perte/corruption de données, faille de sécurité, service indisponible)
+        - Haute (fonctionnalité majeure cassée, contournable difficilement)
+        - Moyenne (fonctionnalité secondaire affectée, contournement possible)
+        - Basse (cosmétique, sans impact fonctionnel)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description du problème
+      description: Que se passe-t-il ? Depuis quand ?
+      placeholder: "Ex : le montant affiché sur le PDF de facture ne correspond pas au montant saisi..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Étapes de reproduction
+      description: Étapes précises permettant de reproduire systématiquement le bogue
+      placeholder: |
+        1. Se connecter sur /dashboard avec le compte de démonstration
+        2. Créer une facture avec un montant de 1234,56 €
+        3. Télécharger le PDF
+        4. Constater...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportement observé
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environnement
+      description: URL, navigateur, OS, version de l'application
+      placeholder: "Production (myself-pro-eight.vercel.app) — Chrome 128 — macOS 15 — v0.8.0-mvp"
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Source de détection
+      description: Comment l'anomalie a-t-elle été détectée ?
+      placeholder: "Ex : alerte Sentry #1234 / signalement client par email / test manuel de recette"
+    validations:
+      required: true
+
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Captures d'écran / logs / lien Sentry
