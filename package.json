@@ -1,6 +1,6 @@
 {
   "name": "myself-pro",
-  "version": "0.9.0-mvp",
+  "version": "0.10.0-mvp",
   "private": true,
   "type": "module",
   "scripts": {
