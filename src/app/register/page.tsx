@@ -24,7 +24,9 @@ export default function RegisterPage() {
         <ThemeToggle />
       </div>
 
-      <RegisterForm />
+      <main className="w-full flex flex-col items-center">
+        <RegisterForm />
+      </main>
     </div>
   );
 }

@@ -25,9 +25,11 @@ export default function LoginPage() {
         <ThemeToggle />
       </div>
 
-      <Suspense fallback={<div className="text-sm text-slate-500">Chargement...</div>}>
-        <LoginForm />
-      </Suspense>
+      <main className="w-full flex flex-col items-center">
+        <Suspense fallback={<div className="text-sm text-slate-500">Chargement...</div>}>
+          <LoginForm />
+        </Suspense>
+      </main>
     </div>
   );
 }

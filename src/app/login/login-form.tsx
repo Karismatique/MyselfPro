@@ -49,7 +49,7 @@ export default function LoginForm() {
 
       <div className="relative flex py-2 items-center mb-6">
         <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        <span className="flex-shrink mx-4 text-slate-400 dark:text-slate-500 text-xs uppercase tracking-wider">ou</span>
+        <span className="flex-shrink mx-4 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">ou</span>
         <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
       </div>
 
@@ -92,7 +92,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full py-3 rounded-lg bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white font-semibold transition-all shadow-md shadow-teal-600/20 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer"
+          className="w-full py-3 rounded-lg bg-teal-700 hover:bg-teal-800 active:bg-teal-900 text-white font-semibold transition-all shadow-md shadow-teal-600/20 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer"
         >
           {isPending ? "Connexion en cours..." : "Se connecter"}
         </button>
