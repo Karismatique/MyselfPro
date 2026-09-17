@@ -32,7 +32,7 @@ export default async function Home() {
           {isLoggedIn ? (
             <Link
               href="/dashboard"
-              className="px-4 py-2 text-sm font-semibold rounded-lg bg-teal-600 hover:bg-teal-700 text-white transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+              className="px-4 py-2 text-sm font-semibold rounded-lg bg-teal-700 hover:bg-teal-800 text-white transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
             >
               Mon Espace Freelance
             </Link>
@@ -46,7 +46,7 @@ export default async function Home() {
               </Link>
               <Link
                 href="/register"
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-teal-600 hover:bg-teal-700 text-white transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-teal-700 hover:bg-teal-800 text-white transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
               >
                 Inscription
               </Link>
@@ -58,7 +58,7 @@ export default async function Home() {
       {/* Section Héro */}
       <main id="main-content" className="flex-1 w-full max-w-6xl mx-auto px-6 py-20 sm:py-28">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold tracking-widest uppercase text-teal-600 dark:text-teal-400 mb-4">
+          <p className="text-sm font-semibold tracking-widest uppercase text-teal-700 dark:text-teal-400 mb-4">
             Plateforme freelance
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1]">
@@ -78,7 +78,7 @@ export default async function Home() {
             {isLoggedIn ? (
               <Link
                 href="/dashboard"
-                className="px-8 py-4 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-bold text-base transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                className="px-8 py-4 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-bold text-base transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
               >
                 Aller sur mon Espace Freelance
               </Link>
@@ -86,7 +86,7 @@ export default async function Home() {
               <>
                 <Link
                   href="/register"
-                  className="px-8 py-4 rounded-lg bg-teal-600 hover:bg-teal-700 text-white font-bold text-base transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                  className="px-8 py-4 rounded-lg bg-teal-700 hover:bg-teal-800 text-white font-bold text-base transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
                 >
                   Démarrer maintenant (Créer un compte)
                 </Link>
@@ -104,7 +104,7 @@ export default async function Home() {
         {/* Section Fonctionnalités Clés */}
         <section aria-label="Fonctionnalités clés" className="mt-24 sm:mt-32">
           <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-            <p className="text-xs font-semibold tracking-widest uppercase text-slate-400 dark:text-slate-500 mb-10">
+            <p className="text-xs font-semibold tracking-widest uppercase text-slate-500 dark:text-slate-400 mb-10">
               Ce que MySelfPro vous apporte
             </p>
 
@@ -161,10 +161,10 @@ export default async function Home() {
       {/* Footer */}
       <footer className="w-full border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-8 transition-colors duration-200">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-slate-400 dark:text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             &copy; {new Date().getFullYear()} MySelfPro. Tous droits réservés. Créé pour le collectif MesIndep.
           </p>
-          <div className="flex gap-6 text-xs text-slate-400 dark:text-slate-500">
+          <div className="flex gap-6 text-xs text-slate-500 dark:text-slate-400">
             <Link href="/login" className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
               Accessibilité : conformité partielle
             </Link>
